@@ -401,15 +401,42 @@ export class DropdownV4 {
   }
 
   private showMatchedText(text: string, qry: string): string {
-    const startIndex: number = text.toLowerCase().indexOf(qry.toLowerCase());
-    if (startIndex > -1) {
-      const endIndex: number = startIndex + qry.length;
-
-      return text.slice(0, startIndex) + '<b>'
-        + text.slice(startIndex, endIndex) + '</b>'
-        + text.slice(endIndex);
+    const bs: string = '<b>';
+    const be: string = '</b>';
+    if ( (text.indexOf(' ') > -1) && (qry.indexOf(' ') > -1) ) {
+      const arrayText: string[] = text.split(' ');
+      const arrayQry: string[] = qry.split(' ');
+      let output: string = '';
+      for (const t of arrayText) {
+        let found: boolean = false;
+        let startIndex: number = -1;
+        let qe: number = 0;
+        for (const q of arrayQry) {
+          if (t.toUpperCase().indexOf(q.toUpperCase()) > -1) {
+            found = true;
+            startIndex = t.toLowerCase().indexOf(q.toLowerCase());
+            qe = q.length;
+            break;
+          }
+        }
+        if (found) {
+          const endIndex: number = startIndex + qe;
+          output += t.slice(0, startIndex) + bs + t.slice(startIndex, endIndex) + be + t.slice(endIndex) + ' ';
+        } else {
+          output += t + ' ';
+        }
+      }
+      return output.trimRight();
+    } else {
+      const startIndex: number = text.toLowerCase().indexOf(qry.toLowerCase());
+      if (startIndex > -1) {
+        const endIndex: number = startIndex + qry.length;
+        return text.slice(0, startIndex) + bs
+          + text.slice(startIndex, endIndex) + be
+          + text.slice(endIndex);
+      }
+      return text;
     }
-    return text;
   }
 
   protected refreshItemList() {
