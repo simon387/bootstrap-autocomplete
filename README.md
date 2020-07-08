@@ -35,3 +35,13 @@ Running DEV Environment
 =======================
 
     docker-compose up
+
+## How to edit and recompile bootstrap-autocomplete
+
+1. git clone
+2. if needed install npm
+3. if needed install yarn
+4. if needed install gulp
+5. if needed install the gulp-cli (```npm install --global gulp-cli```)
+6. **edit code!**
+7. ```gulp release```
